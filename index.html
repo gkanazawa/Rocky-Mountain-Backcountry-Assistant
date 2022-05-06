@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Rocky Mountain Backcountry Assistant</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/10c3b86726.js" crossorigin="anonymous"></script>
+
+    <!-- ArcGIS JS API -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css"/>
+
+</head>
+
+<body id="body-pd">
+
+    <header class="header" id="header">
+        <div class="header_toggle"><i id="header-toggle" class="fas fa-bars text-white"></i> </div>
+        <div class="header-title">Rocky Mountain National Park Backcountry Assistant</div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div> 
+                <div class="nav_list"> 
+
+                    <a class="nav_link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/info.png" width="20" height="20" alt="info button"><span class="nav_name"></span> </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">
+                                <h6>Backcountry Hiking and Camping</h6><hr>
+                                <img src="img/rmnp_banner.jpg" alt="" width="365px">
+                                <p>Rocky Mountain national park boasts stunning mountain views, miles of hiking trails, and numerous backcountry campsites. For multi-day backpacking trips, a backcountry permit is required, and campsites must be reserved in advance. Use the button below to proceed; to view campsite availability, selecting a starting area is required, which can be located with this map's search tool. The search tool can also be used to locate your campsite by name!</p>
+                                <hr>
+                                <button class="btn btn-info" id="reserveButton" type="button" onclick="window.open('https://www.recreation.gov/permits/4675320')">Reserve</button>
+                                <hr>
+                                <p>Check out the official RMNP website before heading out:</p>
+                                <button class="btn btn-outline-secondary" type="button" onclick="window.open('https://www.nps.gov/romo/index.htm')">RMNP Official</button>
+                            </a></li>
+                        </ul>
+                    <!-- <a href="https://www.flaticon.com/free-icons/info" title="info icons">Info icons created by Freepik - Flaticon</a> -->
+                    
+                    <a class="nav_link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/snowed-mountains.png" width="20" height="20" alt="elevation button"><span class="nav_name"></span> </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" id="dropdown-Elev" href="#">
+                                <h6>Elevation Tool</h6><hr>
+                                <p>Taking elevation changes into account is an important part of planning backcountry hikes in the mountains. The elevation tool enables you to visualize elevation changes along any segment of trail (or other part of the map) you wish. To use:
+                                    <ul>
+                                        <li>Click the elevation tool <img src="img/elevWidget.png" width="30px" height="30px" alt=""> to expand the widget and select 'New profile';</li>
+                                        <li>Single-click to add vertices along your intended route;</li>
+                                        <li>Double-click to add your final vertex and finalize the profile.</li>
+                                        <li>If you wish to change the units of measurement on your profile, click the vertical ellipsis.</li>
+                                    </ul>
+                                </p>
+                                <p>Note: the map is also enabled for 3d visualization of the terrain. To use this feature, select <img src="img/3dtoggle.png" width="20px" height="20px">.</p>
+
+                                <!-- <div id="elev"></div> -->
+                            </a></li>
+                        </ul>
+                    <a class="nav_link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/layer.png" width="20" height="20" alt="layer list"><span class="nav_name"></span> </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">
+                                <h6>Toggle active layers</h6><hr>
+                                <div id="layers"></div>
+                            </a></li>
+                        </ul>
+                    <a class="nav_link nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><img src="img/warning.png" width="20" height="20" alt=""><span class="nav_name"></span> </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">
+                                <h6>Report safety incidents</h6><hr>
+                                <p>Reporting safety incidents which occur in the backcountry will help others experience the park more safely in the future. Open the Editor tool <img src="img/editorWidget.png" alt=""> and click New Feature to add a point to the map. The safety incident can be one of the following types:</p>
+                                <ul>
+                                    <li><img src="img/paw.png" width="18px" height="18px">  Wildlife encounter</li>
+                                    <li><img src="img/avalanche.png" width="18px" height="18px">  Avalanche</li>
+                                    <li><img src="img/flash.png" width="18px" height="18px">  Lightning strike</li>
+                                    <li><img src="img/rescue.png" width="18px" height="18px">  River rescue</li>
+                                    <li><img src="img/warning.png" width="18px" height="18px">  Other</li>
+                                </ul><br>
+                                <p>Enter one of those values in the first box, along with the date of the incident and a description for the map marker's popup window.
+                                </p> 
+                            </a></li>
+                        </ul>
+                     <!-- <a href="https://www.flaticon.com/free-icons/warning" title="warning icons">Warning icons created by Freepik - Flaticon</a> -->
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--Container Main start-->
+    <div class="height-100 bg-light">
+        <div id="viewDiv"></div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://js.arcgis.com/4.23/"></script>
+
+    <script type="text/javascript" src="js/main.js"></script>
+    
+</body>
+</html>
